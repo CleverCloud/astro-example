@@ -1,0 +1,228 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Counter from '../components/Counter';
+---
+
+<Layout title="Astro on Clever Cloud">
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <p class="hero-badge">Astro + Clever Cloud</p>
+        <h1>Deploy Astro<br />on Clever Cloud</h1>
+        <p class="hero-subtitle">
+          A minimal example showing how to deploy a static Astro application
+          with interactive islands on
+          <a href="https://www.clever-cloud.com/">Clever Cloud</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="features">
+      <h2>What this example demonstrates</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>Static Output</h3>
+          <p>
+            Astro builds to static HTML, CSS, and JS — perfect for Clever
+            Cloud's static runtime.
+          </p>
+        </div>
+        <div class="feature-card">
+          <h3>Islands Architecture</h3>
+          <p>
+            Only interactive components ship JavaScript. The rest is zero-JS
+            static HTML.
+          </p>
+        </div>
+        <div class="feature-card">
+          <h3>Preact Integration</h3>
+          <p>
+            Lightweight interactive components using Preact, hydrated only when
+            needed.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="island-demo">
+      <h2>Live Preact Island</h2>
+      <Counter client:visible />
+    </section>
+
+    <footer>
+      <p>
+        Deployed on <a href="https://www.clever-cloud.com/">Clever Cloud</a> —
+        the European PaaS that runs your code, not your ops.
+      </p>
+    </footer>
+  </main>
+</Layout>
+
+<style>
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 4rem 0 3rem;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--cc-orange);
+    border: 1px solid var(--cc-orange);
+    border-radius: 999px;
+    padding: 0.3rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+    background: linear-gradient(135deg, var(--cc-orange), var(--cc-red3), var(--cc-cherry));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-subtitle {
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: var(--cc-grey);
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  .features {
+    padding: 3rem 0;
+  }
+
+  .features h2,
+  .island-demo h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .feature-card {
+    background: rgba(58, 56, 113, 0.3);
+    border: 1px solid rgba(58, 56, 113, 0.6);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--cc-orange);
+  }
+
+  .feature-card p {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--cc-grey);
+  }
+
+  .island-demo {
+    padding: 3rem 0;
+    text-align: center;
+  }
+
+  footer {
+    text-align: center;
+    padding: 3rem 0 2rem;
+    border-top: 1px solid rgba(58, 56, 113, 0.4);
+    margin-top: 2rem;
+  }
+
+  footer p {
+    font-size: 0.9rem;
+    color: var(--cc-grey);
+  }
+</style>
+
+<style is:global>
+  .counter {
+    background: rgba(58, 56, 113, 0.3);
+    border: 1px solid rgba(58, 56, 113, 0.6);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .counter h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--cc-orange);
+  }
+
+  .counter-description {
+    font-size: 0.9rem;
+    color: var(--cc-grey);
+    margin-bottom: 1.5rem;
+  }
+
+  .counter-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .counter-controls button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--cc-red1);
+    background: transparent;
+    color: var(--cc-white);
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .counter-controls button:hover {
+    background: var(--cc-red1);
+  }
+
+  .counter-controls button:active {
+    transform: scale(0.95);
+  }
+
+  .counter-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    min-width: 3ch;
+    text-align: center;
+    background: linear-gradient(135deg, var(--cc-orange), var(--cc-cherry));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .counter-hint {
+    font-size: 0.85rem;
+    color: var(--cc-grey);
+  }
+</style>
