@@ -18,6 +18,7 @@ This repository contains a minimal Astro application that can be deployed on [Cl
 - Static site generation with Astro
 - Interactive Preact island using Astro's `client:visible` directive
 - Clever Cloud brand colors and Montserrat typography
+- Image optimization with Sharp (responsive WebP generation)
 - Zero JavaScript on static parts of the page
 - Ready for deployment on Clever Cloud's static runtime
 
@@ -64,12 +65,13 @@ Astro builds to static HTML, so this example uses Clever Cloud's **static runtim
    clever create --type static-apache <app-name>
    ```
 
-4. Set the output directory:
+4. Set the environment variables:
    ```bash
    clever env set CC_WEBROOT "/dist"
+   clever env set SHARP_IGNORE_GLOBAL_LIBVIPS "1"
    ```
 
-   Clever Cloud auto-detects the Astro configuration and runs the build automatically.
+   Clever Cloud auto-detects the Astro configuration and runs the build automatically. See [Sharp image optimization on Clever Cloud](#sharp-image-optimization-on-clever-cloud) for details on the `SHARP_IGNORE_GLOBAL_LIBVIPS` variable.
 
 5. Deploy your application:
    ```bash
@@ -86,9 +88,34 @@ You can also deploy directly from the [Clever Cloud Console](https://console.cle
 4. Clever Cloud auto-detects Astro and builds automatically
 5. Follow the deployment instructions provided in the console
 
+### Sharp image optimization on Clever Cloud
+
+Astro uses [Sharp](https://sharp.pixelplumbing.com/) for image optimization. Sharp ships with its own pre-compiled binaries, but when it detects a globally installed libvips on the system, it tries to rebuild against the system library instead of using its bundled ones. On Clever Cloud instances **libvips is installed globally**, so Sharp attempts this rebuild — which requires `node-gyp` and `node-addon-api`, neither of which is available by default, causing **the install to fail** (see [sharp#4498](https://github.com/lovell/sharp/issues/4498)).
+
+There are two ways to fix this:
+
+**Option A — Ignore system libvips (recommended)**
+
+Set the `SHARP_IGNORE_GLOBAL_LIBVIPS` environment variable so Sharp uses its own pre-compiled binary:
+
+```bash
+clever env set SHARP_IGNORE_GLOBAL_LIBVIPS "1"
+```
+
+**Option B — Provide build dependencies for native compilation**
+
+Install the missing build dependencies so Sharp can compile against the system libvips:
+
+```bash
+clever env set CC_PRE_BUILD_HOOK "npm install node-addon-api node-gyp sharp"
+```
+
+This works reliably but adds significant time to each build.
+
 ## Environment Variables
 
 - `CC_WEBROOT` - Directory served by the static runtime (`/dist`)
+- `SHARP_IGNORE_GLOBAL_LIBVIPS` - Set to `1` to avoid Sharp/libvips build issues (recommended)
 
 ## License
 

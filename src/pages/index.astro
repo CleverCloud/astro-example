@@ -1,11 +1,20 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Counter from '../components/Counter';
+import logo from '../assets/logo-clever-cloud.png';
 ---
 
 <Layout title="Astro on Clever Cloud">
   <main>
     <section class="hero">
+      <Image
+        src={logo}
+        alt="Clever Cloud"
+        class="hero-logo"
+        widths={[320, 480, 672]}
+        sizes="(max-width: 960px) 80vw, 672px"
+      />
       <div class="hero-content">
         <p class="hero-badge">Astro + Clever Cloud</p>
         <h1>Deploy Astro<br />on Clever Cloud</h1>
@@ -63,6 +72,13 @@ import Counter from '../components/Counter';
     max-width: 960px;
     margin: 0 auto;
     padding: 2rem 1.5rem;
+  }
+
+  .hero-logo {
+    max-width: 320px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 2rem;
   }
 
   .hero {
